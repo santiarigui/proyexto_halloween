@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Encuentra planes de Halloween en Bogotá por zona, tipo de actividad y presupuesto."
+    />
+    <meta name="theme-color" content="#171714" />
+    <title>Nochecita — Halloween en Bogotá</title>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
+    <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script
+      defer
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script type="module" src="./src/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Nochecita, inicio">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span>nochecita<span class="brand-period">.</span></span>
+      </a>
+      <nav class="header-nav" aria-label="Navegación principal">
+        <a class="nav-link" href="#explorar">Explorar planes</a>
+        <button class="nav-link nav-button" id="saved-nav" type="button">
+          Guardados <span class="saved-count" id="saved-count">0</span>
+        </button>
+        <button class="button button-dark header-submit" id="open-suggest" type="button">
+          <span aria-hidden="true">＋</span> Sugerir un plan
+        </button>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="live-dot"></span> BOGOTÁ · 31 OCT 2026</div>
+          <h1 id="hero-title">La noche es joven.<br /><span>Sal a vivirla.</span></h1>
+          <p>
+            Planes para todos los sustos, presupuestos y edades. Encuentra algo bueno
+            cerca de ti.
+          </p>
+          <a class="hero-link" href="#explorar">Encuentra tu plan <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="moon"></div>
+          <div class="hero-star star-one">✦</div>
+          <div class="hero-star star-two">✳</div>
+          <div class="hero-star star-three">·</div>
+          <div class="bat bat-one">⌁</div>
+          <div class="bat bat-two">⌁</div>
+          <div class="hero-pumpkin">
+            <span class="pumpkin-leaf"></span>
+            <span class="pumpkin-eye eye-left"></span>
+            <span class="pumpkin-eye eye-right"></span>
+            <span class="pumpkin-smile"></span>
+          </div>
+          <div class="hill hill-back"></div>
+          <div class="hill hill-front"></div>
+          <div class="hero-art-note">una noche<br />para recordar</div>
+        </div>
+        <div class="hero-bottom">
+          <span>BOGOTÁ, COLOMBIA</span>
+          <span>UNA GUÍA HECHA PARA COMPARTIR <span aria-hidden="true">↗</span></span>
+        </div>
+      </section>
+
+      <div class="demo-notice" role="note">
+        <span class="notice-icon" aria-hidden="true">✳</span>
+        <p><strong>Prototipo académico.</strong> Los planes visibles son ejemplos de demostración, no eventos confirmados.</p>
+        <span class="notice-tag">DATOS DE MUESTRA</span>
+      </div>
+
+      <section class="explore-section" id="explorar" aria-labelledby="explore-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow section-eyebrow">TU NOCHE, A TU MANERA</p>
+            <h2 id="explore-title">Encuentra tu plan<span class="heading-period">.</span></h2>
+          </div>
+          <p class="results-summary" id="results-summary" aria-live="polite"></p>
+        </div>
+
+        <div class="explore-layout">
+          <aside class="filters-panel" aria-label="Filtros de planes">
+            <div class="filter-heading">
+              <span class="filter-icon" aria-hidden="true">☷</span>
+              <h3>Filtrar planes</h3>
+              <button class="text-button" id="clear-filters" type="button">Limpiar</button>
+            </div>
+
+            <label class="search-field">
+              <span class="sr-only">Buscar plan o zona</span>
+              <span aria-hidden="true">⌕</span>
+              <input id="search-input" type="search" placeholder="Plan o zona..." autocomplete="off" />
+            </label>
+
+            <fieldset class="filter-group">
+              <legend>Localidad</legend>
+              <label class="select-wrap">
+                <span class="sr-only">Filtrar por localidad</span>
+                <select id="locality-filter">
+                  <option value="all">Todas las localidades</option>
+                </select>
+                <span aria-hidden="true">⌄</span>
+              </label>
+            </fieldset>
+
+            <fieldset class="filter-group">
+              <legend>Tipo de plan</legend>
+              <label class="select-wrap">
+                <span class="sr-only">Filtrar por tipo de plan</span>
+                <select id="category-filter">
+                  <option value="all">Todos los planes</option>
+                  <option value="familiar">Familiar</option>
+                  <option value="cultura">Cultura</option>
+                  <option value="fiesta">Fiesta</option>
+                  <option value="aire-libre">Al aire libre</option>
+                </select>
+                <span aria-hidden="true">⌄</span>
+              </label>
+            </fieldset>
+
+            <fieldset class="filter-group age-filter">
+              <legend>¿Con quién vas?</legend>
+              <div class="chip-list" role="group" aria-label="Filtrar por público">
+                <button class="filter-chip is-selected" type="button" data-audience="all" aria-pressed="true">Cualquiera</button>
+                <button class="filter-chip" type="button" data-audience="familia" aria-pressed="false">Familia</button>
+                <button class="filter-chip" type="button" data-audience="adultos" aria-pressed="false">Adultos</button>
+              </div>
+            </fieldset>
+
+            <div class="filter-divider"></div>
+            <label class="toggle-row">
+              <span class="toggle-copy">
+                <strong>Solo gratis</strong>
+                <small>Planes sin costo de entrada</small>
+              </span>
+              <input class="toggle-input" id="free-filter" type="checkbox" />
+              <span class="toggle-track" aria-hidden="true"></span>
+            </label>
+
+            <div class="sidebar-note">
+              <span aria-hidden="true">☾</span>
+              <p>¿Organizas un plan?<br /><button class="inline-link" id="sidebar-suggest" type="button">Compártelo con la comunidad ↗</button></p>
+            </div>
+          </aside>
+
+          <div class="results-panel">
+            <div class="results-toolbar">
+              <div class="results-label"><span class="results-spark" aria-hidden="true">✳</span><span id="results-label">Planes para descubrir</span></div>
+              <div class="view-controls" role="group" aria-label="Vista de resultados">
+                <button class="view-button is-active" id="list-view-button" type="button" aria-pressed="true"><span aria-hidden="true">☷</span> Lista</button>
+                <button class="view-button" id="map-view-button" type="button" aria-pressed="false"><span aria-hidden="true">⌖</span> Mapa</button>
+              </div>
+            </div>
+            <div class="results-content" id="results-content">
+              <div class="event-list" id="event-list" aria-live="polite"></div>
+              <div class="map-panel" id="map-panel" aria-label="Mapa de planes en Bogotá" hidden>
+                <div id="map" role="application" aria-label="Mapa interactivo con planes de Halloween"></div>
+                <div class="map-caption"><span class="map-caption-dot"></span> Ubicaciones aproximadas · mapa de OpenStreetMap</div>
+              </div>
+              <div class="empty-state" id="empty-state" hidden>
+                <span class="empty-illustration" aria-hidden="true">☾</span>
+                <h3>No encontramos ese plan.</h3>
+                <p>Prueba con otros filtros o busca una zona diferente.</p>
+                <button class="button button-outline" id="empty-clear" type="button">Limpiar filtros</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="community-banner">
+        <div class="community-icon" aria-hidden="true">✳</div>
+        <div>
+          <p class="eyebrow">BOGOTÁ SE MUEVE</p>
+          <h2>¿Sabes de un plan bueno?</h2>
+          <p>Ayuda a que más personas lo encuentren. Cada sugerencia se revisa antes de publicarse.</p>
+        </div>
+        <button class="button button-light" id="community-suggest" type="button">Sugerir un plan <span aria-hidden="true">↗</span></button>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="./"><span class="brand-mark" aria-hidden="true">✳</span><span>nochecita<span class="brand-period">.</span></span></a>
+      <p>Un proyecto académico para descubrir planes en Bogotá.</p>
+      <span class="footer-year">HECHO CON CARIÑO · 2026</span>
+    </footer>
+
+    <dialog class="event-dialog" id="event-dialog" aria-labelledby="dialog-title">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="Cerrar detalle">×</button>
+      <div class="dialog-art" id="dialog-art"><span class="dialog-art-symbol" aria-hidden="true">✳</span><span class="dialog-category" id="dialog-category"></span></div>
+      <div class="dialog-content">
+        <div class="dialog-eyebrow" id="dialog-locality"></div>
+        <h2 id="dialog-title"></h2>
+        <p class="dialog-description" id="dialog-description"></p>
+        <dl class="event-facts">
+          <div><dt>Cuándo</dt><dd id="dialog-when"></dd></div>
+          <div><dt>Dónde</dt><dd id="dialog-where"></dd></div>
+          <div><dt>Entrada</dt><dd id="dialog-price"></dd></div>
+          <div><dt>Recomendado para</dt><dd id="dialog-audience"></dd></div>
+        </dl>
+        <div class="source-note" id="dialog-source"></div>
+        <button class="button button-dark dialog-save" id="dialog-save" type="button">Guardar este plan</button>
+      </div>
+    </dialog>
+
+    <dialog class="suggest-dialog" id="suggest-dialog" aria-labelledby="suggest-title">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="Cerrar formulario">×</button>
+      <div class="suggest-content">
+        <p class="eyebrow section-eyebrow">HECHO POR LA COMUNIDAD</p>
+        <h2 id="suggest-title">Comparte un plan<span class="heading-period">.</span></h2>
+        <p class="suggest-intro">Completa los datos del plan. El equipo podrá revisarlo después; no aparecerá como confirmado automáticamente.</p>
+        <p class="backend-status" id="backend-status" role="status">Conectando con el backend...</p>
+        <form id="suggest-form">
+          <label class="form-field">Nombre del plan<input name="title" required maxlength="70" placeholder="Ej. Cine de terror al aire libre" /></label>
+          <div class="form-row">
+            <label class="form-field">Localidad
+              <select name="locality" required>
+                <option value="">Selecciona una</option>
+                <option>Usaquén</option><option>Chapinero</option><option>Santa Fe</option>
+                <option>San Cristóbal</option><option>Usme</option><option>Tunjuelito</option>
+                <option>Bosa</option><option>Kennedy</option><option>Fontibón</option>
+                <option>Engativá</option><option>Suba</option><option>Barrios Unidos</option>
+                <option>Teusaquillo</option><option>Los Mártires</option><option>Antonio Nariño</option>
+                <option>Puente Aranda</option><option>La Candelaria</option><option>Rafael Uribe Uribe</option>
+                <option>Ciudad Bolívar</option><option>Sumapaz</option>
+              </select>
+            </label>
+            <label class="form-field">Tipo
+              <select name="category" required>
+                <option value="">Selecciona</option><option value="familiar">Familiar</option>
+                <option value="cultura">Cultura</option><option value="fiesta">Fiesta</option>
+                <option value="aire-libre">Al aire libre</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-row">
+            <label class="form-field">Fecha
+              <input name="date" type="date" value="2026-10-31" required />
+            </label>
+            <label class="form-field">Hora
+              <input name="time" type="time" value="18:00" required />
+            </label>
+          </div>
+          <label class="form-field">¿Para quién es?
+            <select name="audience" required>
+              <option value="cualquiera">Para todos los públicos</option>
+              <option value="familia">Para toda la familia</option>
+              <option value="adultos">Jóvenes y adultos</option>
+            </select>
+          </label>
+          <label class="form-field">Dirección o punto de referencia<input name="place" required maxlength="100" placeholder="Barrio, parque o dirección" /></label>
+          <label class="form-field">Enlace de la fuente<input name="source" type="url" required placeholder="https://..." aria-describedby="source-help" /></label>
+          <small class="field-help" id="source-help">Pega el enlace donde encontraste la información del evento.</small>
+          <label class="form-field">Descripción<textarea name="description" rows="3" maxlength="240" required placeholder="¿Qué hace especial este plan?"></textarea></label>
+          <label class="form-check"><input name="free" type="checkbox" checked /> Es gratis</label>
+          <label class="form-field suggested-price-field" id="suggest-price-field" hidden>
+            Precio de entrada (COP)
+            <input name="price" type="number" min="0" step="500" placeholder="Ej. 15000" />
+          </label>
+          <p class="form-disclaimer">Se guardará en el servidor local del proyecto como pendiente de revisión. No compartas datos personales.</p>
+          <button class="button button-dark form-submit" type="submit">Guardar sugerencia <span aria-hidden="true">↗</span></button>
+          <p class="form-feedback" id="form-feedback" role="status" hidden></p>
+        </form>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
