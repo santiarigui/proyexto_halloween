@@ -58,7 +58,9 @@ function escapeHtml(value = "") {
 
 function formatPrice(price) {
   if (price === 0) return "Gratis";
-  if (price == null) return "Precio por confirmar";
+  if (price == null || price === "") return "Precio por confirmar";
+  if (typeof price === "string") return price;
+  if (typeof price !== "number" || !Number.isFinite(price)) return "Precio por confirmar";
   return `$${new Intl.NumberFormat("es-CO").format(price)}`;
 }
 
@@ -117,7 +119,7 @@ function eventCard(event) {
           <span class="event-card-meta">${escapeHtml(event.locality)} <span aria-hidden="true">·</span> ${escapeHtml(event.categoryLabel || categoryLabels[event.category] || "Comunidad")}${pending ? ' <span class="pending-label">· Pendiente</span>' : ""}</span>
           <span class="event-card-title">${escapeHtml(event.title)}</span>
           <span class="event-card-place"><span aria-hidden="true">⌖</span> ${escapeHtml(event.place)}</span>
-          <span class="event-card-bottom"><span>${escapeHtml(formatShortDate(event.date))} <span aria-hidden="true">·</span> ${escapeHtml(event.time)}</span><strong class="${event.price === 0 ? "price-free" : ""}">${formatPrice(event.price)}</strong></span>
+          <span class="event-card-bottom"><span>${escapeHtml(formatShortDate(event.date))} <span aria-hidden="true">·</span> ${escapeHtml(event.time)}</span><strong class="${event.price === 0 ? "price-free" : ""}">${escapeHtml(formatPrice(event.price))}</strong></span>
         </span>
       </button>
       <button class="save-button ${saved ? "is-saved" : ""}" type="button" data-save-event="${escapeHtml(event.id)}" aria-label="${saved ? "Quitar de" : "Guardar en"} favoritos" aria-pressed="${saved}">
@@ -232,7 +234,9 @@ function openEvent(eventId) {
   document.querySelector("#dialog-description").textContent = event.description;
   document.querySelector("#dialog-when").textContent = `${formatDate(event.date)} · ${event.time}`;
   document.querySelector("#dialog-where").textContent = event.place;
-  document.querySelector("#dialog-price").textContent = formatPrice(event.price);
+  const priceElement = document.querySelector("#dialog-price");
+  priceElement.textContent = event.priceDetails || formatPrice(event.price);
+  priceElement.style.whiteSpace = "pre-line";
   document.querySelector("#dialog-audience").textContent = event.audienceLabel || "Por confirmar";
   const source = document.querySelector("#dialog-source");
   source.replaceChildren();
