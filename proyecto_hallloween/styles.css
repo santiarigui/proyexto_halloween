@@ -193,6 +193,7 @@ dialog::backdrop{background:rgba(10,7,18,.78);backdrop-filter:blur(4px)}
 .site-footer{flex-wrap:wrap;gap:8px 16px}.footer-brand{width:100%}.footer-year{margin-left:0}
 .suggest-content{padding:28px 20px}.form-row{grid-template-columns:1fr}.event-facts>div{grid-template-columns:100px 1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
 /* ===== Decoración de Halloween ===== */
 .night-layer{position:fixed;inset:0;z-index:45;pointer-events:none;overflow:hidden}
 .flyer{position:absolute;top:var(--y);left:0;animation:fly var(--d) linear var(--dl) infinite;will-change:transform}
