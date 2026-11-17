@@ -17,6 +17,26 @@
     <script type="module" src="./src/app.js"></script>
   </head>
   <body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <symbol id="bat" viewBox="0 0 100 50"><path d="M50 12 L44 4 L42 14 C36 10 28 8 18 10 C10 12 4 18 0 26 C6 22 12 22 16 26 C18 24 24 24 28 28 C30 26 36 26 40 30 C44 34 46 40 50 46 C54 40 56 34 60 30 C64 26 70 26 72 28 C76 24 82 24 84 26 C88 22 94 22 100 26 C96 18 90 12 82 10 C72 8 64 10 58 14 L56 4 Z"/></symbol>
+      <symbol id="web" viewBox="0 0 200 200">
+        <path d="M0 0L170 0M0 0L147 85M0 0L85 147M0 0L0 170"/>
+        <path d="M60 0Q48 13 52 30Q35 35 30 52Q13 48 0 60"/>
+        <path d="M110 0Q87 23 95 55Q64 64 55 95Q23 87 0 110"/>
+        <path d="M160 0Q127 34 139 80Q93 93 80 139Q34 127 0 160"/>
+      </symbol>
+    </svg>
+
+    <div class="night-layer" aria-hidden="true">
+      <span class="flyer" style="--y:12vh;--s:56px;--d:16s;--dl:-3s"><svg viewBox="0 0 100 50"><use href="#bat"/></svg></span>
+      <span class="flyer rev" style="--y:30vh;--s:38px;--d:21s;--dl:-9s"><svg viewBox="0 0 100 50"><use href="#bat"/></svg></span>
+      <span class="flyer" style="--y:55vh;--s:70px;--d:24s;--dl:-14s"><svg viewBox="0 0 100 50"><use href="#bat"/></svg></span>
+      <span class="flyer rev" style="--y:72vh;--s:44px;--d:18s;--dl:-5s"><svg viewBox="0 0 100 50"><use href="#bat"/></svg></span>
+      <span class="flyer" style="--y:42vh;--s:30px;--d:13s;--dl:-8s"><svg viewBox="0 0 100 50"><use href="#bat"/></svg></span>
+      <span class="flyer ghost" style="--y:20vh;--d:45s;--dl:-20s">👻</span>
+      <span class="flyer ghost rev" style="--y:65vh;--d:55s;--dl:-30s">👻</span>
+    </div>
+
     <a class="skip-link" href="#main-content">Saltar al contenido</a>
 
     <header class="site-header">
@@ -33,6 +53,10 @@
 
     <main id="main-content">
       <section class="hero" aria-labelledby="hero-title">
+        <svg class="web" aria-hidden="true"><use href="#web"/></svg>
+        <svg class="web right" aria-hidden="true"><use href="#web"/></svg>
+        <div class="spider" aria-hidden="true"><span>🕷️</span></div>
+
         <div class="hero-copy">
           <div class="eyebrow"><span class="live-dot"></span> BOGOTÁ · 31 OCT 2026</div>
           <h1 id="hero-title">La noche es joven.<br /><span>Sal a vivirla.</span></h1>
@@ -69,6 +93,8 @@
       </div>
 
       <section class="explore-section" id="explorar" aria-labelledby="explore-title">
+        <svg class="web right" aria-hidden="true"><use href="#web"/></svg>
+
         <div class="section-heading">
           <div>
             <p class="eyebrow section-eyebrow">TU NOCHE, A TU MANERA</p>
