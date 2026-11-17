@@ -3,27 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Encuentra planes de Halloween en Bogotá por zona, tipo de actividad y presupuesto."
-    />
-    <meta name="theme-color" content="#171714" />
+    <meta name="description" content="Encuentra planes de Halloween en Bogotá por zona, tipo de actividad y presupuesto." />
+    <meta name="theme-color" content="#120e1c" />
     <title>Nochecita — Halloween en Bogotá</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://unpkg.com" crossorigin />
     <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="./styles.css" />
-    <script
-      defer
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
+    <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script type="module" src="./src/app.js"></script>
   </head>
   <body>
@@ -36,12 +26,8 @@
       </a>
       <nav class="header-nav" aria-label="Navegación principal">
         <a class="nav-link" href="#explorar">Explorar planes</a>
-        <button class="nav-link nav-button" id="saved-nav" type="button">
-          Guardados <span class="saved-count" id="saved-count">0</span>
-        </button>
-        <button class="button button-dark header-submit" id="open-suggest" type="button">
-          <span aria-hidden="true">＋</span> Sugerir un plan
-        </button>
+        <button class="nav-link nav-button" id="saved-nav" type="button">Guardados <span class="saved-count" id="saved-count">0</span></button>
+        <button class="button button-dark header-submit" id="open-suggest" type="button"><span aria-hidden="true">＋</span> Sugerir un plan</button>
       </nav>
     </header>
 
@@ -50,10 +36,7 @@
         <div class="hero-copy">
           <div class="eyebrow"><span class="live-dot"></span> BOGOTÁ · 31 OCT 2026</div>
           <h1 id="hero-title">La noche es joven.<br /><span>Sal a vivirla.</span></h1>
-          <p>
-            Planes para todos los sustos, presupuestos y edades. Encuentra algo bueno
-            cerca de ti.
-          </p>
+          <p>Planes para todos los sustos, presupuestos y edades. Encuentra algo bueno cerca de ti.</p>
           <a class="hero-link" href="#explorar">Encuentra tu plan <span aria-hidden="true">↓</span></a>
         </div>
         <div class="hero-art" aria-hidden="true">
@@ -112,9 +95,7 @@
               <legend>Localidad</legend>
               <label class="select-wrap">
                 <span class="sr-only">Filtrar por localidad</span>
-                <select id="locality-filter">
-                  <option value="all">Todas las localidades</option>
-                </select>
+                <select id="locality-filter"><option value="all">Todas las localidades</option></select>
                 <span aria-hidden="true">⌄</span>
               </label>
             </fieldset>
@@ -145,10 +126,7 @@
 
             <div class="filter-divider"></div>
             <label class="toggle-row">
-              <span class="toggle-copy">
-                <strong>Solo gratis</strong>
-                <small>Planes sin costo de entrada</small>
-              </span>
+              <span class="toggle-copy"><strong>Solo gratis</strong><small>Planes sin costo de entrada</small></span>
               <input class="toggle-input" id="free-filter" type="checkbox" />
               <span class="toggle-track" aria-hidden="true"></span>
             </label>
@@ -250,12 +228,8 @@
             </label>
           </div>
           <div class="form-row">
-            <label class="form-field">Fecha
-              <input name="date" type="date" value="2026-10-31" required />
-            </label>
-            <label class="form-field">Hora
-              <input name="time" type="time" value="18:00" required />
-            </label>
+            <label class="form-field">Fecha<input name="date" type="date" value="2026-10-31" required /></label>
+            <label class="form-field">Hora<input name="time" type="time" value="18:00" required /></label>
           </div>
           <label class="form-field">¿Para quién es?
             <select name="audience" required>
