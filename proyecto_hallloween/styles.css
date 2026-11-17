@@ -193,3 +193,28 @@ dialog::backdrop{background:rgba(10,7,18,.78);backdrop-filter:blur(4px)}
 .site-footer{flex-wrap:wrap;gap:8px 16px}.footer-brand{width:100%}.footer-year{margin-left:0}
 .suggest-content{padding:28px 20px}.form-row{grid-template-columns:1fr}.event-facts>div{grid-template-columns:100px 1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+/* ===== Decoración de Halloween ===== */
+.night-layer{position:fixed;inset:0;z-index:45;pointer-events:none;overflow:hidden}
+.flyer{position:absolute;top:var(--y);left:0;animation:fly var(--d) linear var(--dl) infinite;will-change:transform}
+.flyer.rev{animation-name:fly-rev}
+.flyer svg{display:block;width:var(--s);height:auto;fill:#0a0712;filter:drop-shadow(0 0 5px rgba(155,131,255,.9));animation:flap .35s ease-in-out infinite alternate;transform-origin:50% 40%}
+.flyer.ghost{font-size:44px;line-height:1;opacity:.5;filter:drop-shadow(0 0 12px #fff)}
+@keyframes fly{0%{transform:translate(-120px,0)}20%{transform:translate(20vw,-40px)}40%{transform:translate(42vw,25px)}60%{transform:translate(64vw,-35px)}80%{transform:translate(86vw,20px)}100%{transform:translate(calc(100vw + 120px),-10px)}}
+@keyframes fly-rev{0%{transform:translate(calc(100vw + 120px),0)}20%{transform:translate(80vw,30px)}40%{transform:translate(58vw,-25px)}60%{transform:translate(36vw,35px)}80%{transform:translate(14vw,-20px)}100%{transform:translate(-120px,10px)}}
+@keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(.45)}}
+
+.hero,.explore-section{position:relative}
+.web{position:absolute;top:0;left:0;width:min(230px,40vw);height:auto;z-index:1;pointer-events:none;fill:none;stroke:var(--paper);stroke-width:1.2;opacity:.45}
+.web.right{left:auto;right:0;transform:scaleX(-1)}
+.explore-section>.web{opacity:.22}
+
+.spider{position:absolute;top:0;left:40%;z-index:1;transform-origin:top center;animation:swing 3.4s ease-in-out infinite alternate;pointer-events:none}
+.spider::before{content:"";display:block;width:1px;height:130px;margin:0 auto;background:rgba(255,246,230,.6)}
+.spider span{display:block;margin-top:-4px;font-size:30px;line-height:1;text-align:center}
+@keyframes swing{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+
+.hero-pumpkin{animation:glow 2.2s ease-in-out infinite alternate}
+@keyframes glow{from{box-shadow:inset -14px -9px rgba(120,40,10,.2),0 0 40px rgba(255,122,26,.25)}to{box-shadow:inset -14px -9px rgba(120,40,10,.2),0 0 100px rgba(255,122,26,.7)}}
+
+@media(max-width:650px){.spider{left:78%}.flyer:nth-child(n+4){display:none}}
+@media(prefers-reduced-motion:reduce){.night-layer{display:none}.spider,.hero-pumpkin{animation:none}}
