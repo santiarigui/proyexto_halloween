@@ -1,32 +1,28 @@
 # Backend Java de Nochecita
 
-El backend de Nochecita está implementado en Java 17 o superior. Utiliza el servidor HTTP incluido en el JDK y Jackson para leer y generar JSON.
+Este backend está hecho con Java básico y las herramientas que vienen incluidas en el JDK. No necesita Maven ni librerías externas.
 
-## Requisitos
-
+## Requisito
 - JDK 17 o superior.
-- Maven 3.8 o superior.
 
-## Ejecutar desde esta carpeta
-
-```bash
-mvn test
-mvn package
-mvn exec:java -Dexec.mainClass="com.nochecita.Main"
-```
-
-Si no está configurado el plugin exec, también se puede ejecutar con:
+## Ejecutar
+Abre una terminal en VS Code y ejecuta:
 
 ```bash
-mvn compile
-java -cp "target/classes:target/dependency/*" com.nochecita.Main
+cd backend
+javac Main.java
+java Main
 ```
 
-El servidor escucha en http://127.0.0.1:3000 y entrega el frontend desde la carpeta hermana `../frontend`. Las sugerencias se guardan en `../data/suggestions.json`.
+Abre http://localhost:3000 en el navegador.
 
-## API
+Para detener el servidor, presiona Ctrl + C en la terminal.
 
-- `GET /api/suggestions`: devuelve `{ "suggestions": [...] }`.
-- `POST /api/suggestions`: valida y guarda una sugerencia; responde con HTTP 201.
+## ¿Qué hace?
+- Muestra la página web que está en la carpeta frontend.
+- Atiende GET /api/suggestions para consultar sugerencias.
+- Atiende POST /api/suggestions para guardar sugerencias.
+- Guarda las sugerencias en data/suggestions.txt.
 
-El contrato JSON se conserva para que `frontend/app.js` no tenga que cambiar su lógica de comunicación.
+## Clases y conceptos
+Todo el backend está en Main.java. Allí se encuentra el método main, el servidor HTTP, el manejo de solicitudes y el almacenamiento sencillo de sugerencias.
