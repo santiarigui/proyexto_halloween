@@ -348,7 +348,7 @@ async function handleSuggestionSubmit(formEvent) {
   } catch (error) {
     console.error("No se pudo enviar la sugerencia al backend.", error);
     elements.formFeedback.textContent = error instanceof TypeError
-      ? "No se pudo conectar con el backend. Inícialo con «npm start» y abre la web desde http://localhost:3000."
+      ? "No se pudo conectar con el backend. Inicia Java desde la carpeta backend y abre http://localhost:3000."
       : error.message;
     elements.formFeedback.hidden = false;
     return;
@@ -430,7 +430,7 @@ async function initializeApp() {
     document.querySelector("#backend-status").textContent = "Conectado: los planes se guardan en el archivo del proyecto.";
   } catch (error) {
     console.error("No se pudieron cargar sugerencias desde el backend.", error);
-    document.querySelector("#backend-status").textContent = "Backend desconectado. Inicia el servidor con «npm start» para enviar sugerencias.";
+    document.querySelector("#backend-status").textContent = "Backend desconectado. Inicia el servidor Java desde la carpeta backend para enviar sugerencias.";
   }
   populateLocalities();
   updateResults();
