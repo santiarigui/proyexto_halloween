@@ -1,45 +1,46 @@
-# Backend en 5 minutos
+# Backend Java de Nochecita
 
-## 1. Arranca el servidor
+## Requisitos
+- JDK 17 o superior.
+- Maven 3.8 o superior.
 
-Desde la carpeta del proyecto:
+## Ejecutar
+Desde la carpeta raíz del proyecto:
 
 ```bash
-npm start
+cd backend
+mvn test
+mvn package
+mvn exec:java
 ```
 
-Abre <http://localhost:3000>. No abras `index.html` directamente ni uses Live Server: el formulario necesita que la página y el backend estén bajo la misma dirección.
+El servidor estará disponible en http://127.0.0.1:3000. Para cambiar el puerto, define la variable de entorno `PORT`.
 
-## 2. Añade un plan en la página
+No abras el HTML con Live Server: el backend Java sirve el frontend y la API desde el mismo origen.
 
-Pulsa **Sugerir un plan**, completa los campos y guarda. En la pantalla debe aparecer el mensaje de que quedó pendiente de revisión.
+## Recorrido de una sugerencia
+1. El formulario de `frontend/index.html` es gestionado por `frontend/app.js`.
+2. JavaScript envía `POST /api/suggestions` como JSON.
+3. `ApiServer` recibe la solicitud.
+4. `SuggestionValidator` comprueba los campos.
+5. `SuggestionService` persiste el objeto en `data/suggestions.json`.
+6. El backend responde HTTP 201.
+7. La interfaz consulta `GET /api/suggestions` y muestra la sugerencia pendiente.
 
-## 3. Sigue el dato
+## Clases Java
+- `Main.java`: punto de entrada y configuración de rutas.
+- `ApiServer.java`: servidor HTTP, endpoints y archivos estáticos.
+- `Suggestion.java`: modelo de datos.
+- `SuggestionValidator.java`: validaciones de negocio.
+- `SuggestionService.java`: lectura y escritura JSON.
 
-El recorrido del formulario es:
+## API
+- `GET /api/suggestions`: devuelve `{ "suggestions": [...] }`.
+- `POST /api/suggestions`: recibe y valida una sugerencia; devuelve HTTP 201 cuando se guarda.
 
-```text
-Formulario en index.html
-       ↓ fetch("/api/suggestions", POST)
-Ruta y validaciones en server.mjs
-       ↓ escribe JSON
-data/suggestions.json
-       ↓ fetch("/api/suggestions", GET)
-La web muestra el plan pendiente
-```
+El contrato JSON se conserva para que el frontend no necesite cambiar sus solicitudes.
 
-Puedes abrir `data/suggestions.json` en VS Code para ver el objeto guardado. `title` es el nombre, `locality` la localidad, `date` la fecha ISO (`AAAA-MM-DD`), `time` la hora de 24 horas (`HH:MM`), `price` el costo en pesos, y `sourceUrl` el enlace que el equipo debe revisar.
+## Persistencia y alcance
+Las sugerencias se guardan en `data/suggestions.json`. Los favoritos continúan almacenándose en `localStorage` del navegador. Los eventos de `frontend/data.js` son datos demostrativos independientes.
 
-## 4. Reinicia y comprueba que persiste
-
-Detén el proceso con `Ctrl+C`, vuelve a ejecutar `npm start` y recarga la página. El plan debe seguir apareciendo porque está guardado en el archivo del servidor, no en el almacenamiento del navegador.
-
-## 5. Qué revisar antes de darlo por bueno
-
-- Un plan sugerido siempre se muestra como pendiente, nunca como confirmado.
-- Entra un enlace `http`/`https`, una localidad admitida, categoría, fecha/hora válidas y precio entero.
-- El servidor pone un límite al tamaño del cuerpo y a la cantidad de registros.
-- Las sugerencias contienen texto público del usuario: el frontend lo escapa antes de mostrarlo.
-- Es un ejemplo local sin autenticación. No lo expongas a internet ni guardes nombres, correos, teléfonos u otros datos personales.
-
-El backend usa el módulo `node:http` y el sistema de archivos de Node; no hace falta instalar Express ni una base de datos para aprender este flujo.
+Este proyecto es una demostración local sin autenticación ni moderación administrativa. No se debe exponer a internet sin controles adicionales.
